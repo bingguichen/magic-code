@@ -1,0 +1,17 @@
+[Unit]
+Description={{app_name}}
+After=syslog.target network.target remote-fs.target nss-lookup.target demo.service
+[Service]
+User=mcloud
+Group=mcloud
+Type=simple
+WorkingDirectory=/app/{{app_name}}/bin
+ExecStart={{JAVABIN}} {{JAVAOPTS}} /app/{{app_name}}/bin/{{app_name}}.jar {{JAVACONF}}
+PrivateTmp=true
+StandardOutput=null
+StandardError=syslog
+SyslogIdentifier={{app_name}}
+Restart=always
+RestartSec=30
+[Install]
+WantedBy=multi-user.target

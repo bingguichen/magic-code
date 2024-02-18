@@ -1,0 +1,74 @@
+server:
+  port: 10001
+
+#logging settings
+logging:
+  config: {{logConfigPath}}
+
+info:
+  build:
+    artifact: @project.artifactId@
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+  app:
+    name: @project.name@
+    version: @project.version@
+
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: 'prometheus'
+  metrics:
+    tags:
+      application: @project.name@
+    export:
+      otel:
+        enabled: true
+      prometheus:
+        enabled: true
+#        pushgateway:
+#          enabled: true
+#          base-url: 127.0.0.1:29091
+#          push-rate: 15s
+#          job: @project.name@
+
+spring:
+  application:
+    name: @project.name@
+  cloud:
+    sentinel:
+      enabled: true
+      web-context-unify: false
+      transport:
+        dashboard: {{sentinelDashboardServer}}
+        port: {{sentinelApiPort}}
+        heartbeat-interval-ms: 60000
+        client-ip: {{sentinelClientIp}}
+      log:
+        dir: {{sentinelLogDir}}
+      datasource:
+        flowetcd:
+          etcd:
+            endpoints: {{sentinelEtcdEndpoint}}
+            rule-type: flow
+        degradeetcd:
+          etcd:
+            endpoints: {{sentinelEtcdEndpoint}}
+            rule-type: degrade
+        systemetcd:
+          etcd:
+            endpoints: {{sentinelEtcdEndpoint}}
+            rule-type: system
+        authorityetcd:
+          etcd:
+            endpoints: {{sentinelEtcdEndpoint}}
+            rule-type: authority
+        parametcd:
+          etcd:
+            endpoints: {{sentinelEtcdEndpoint}}
+            rule-type: param-flow

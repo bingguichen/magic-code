@@ -1,0 +1,16 @@
+#滚动发布配置文件
+metadata:
+  buildId: {{buildId}}
+  buildTime: {{buildTime}}
+  version: {{version}}
+registries:
+  demo-webmvc:
+      protocol: http
+      port: 10001
+      #dapr健康检查端口，也就是dapr的http端口
+      dapr_check_port: {{daprCheckPort}}
+      meta:
+        #meta信息的key/value键值对，value只能是字符串类型
+        #dapr的内部沟通端口
+        DAPR_PORT: {{daprInternalGrpcPort}}
+        protocol: http
