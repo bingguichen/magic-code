@@ -1,4 +1,4 @@
-package com.bin.csp.demo.ic;
+package com.bin.csp.demo.ic.array;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
