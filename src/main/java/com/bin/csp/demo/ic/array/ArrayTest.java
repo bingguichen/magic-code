@@ -7,68 +7,52 @@ import org.slf4j.LoggerFactory;
 public class ArrayTest {
     private static final Logger logger = LoggerFactory.getLogger(ArrayTest.class);
     public static void main(String[] args) {
-        int nums[] = new int[]{3,2,2,3};
-
-        logger.info(""+removeElement(nums,2));
+        int nums[] = new int[]{3,2,2,3,1,};
+        logger.info("remove: {}", removeE(nums, 2));
     }
 
-    public static int removeDuplicates(int[] nums){
-        if(nums == null || nums.length == 0) return 0;
-        int p = 0;
-        int q = 1;
-        while(q < nums.length){
-            if(nums[p] != nums[q]){
-                nums[p + 1] = nums[q];
-                p++;
-            }
-            q++;
-        }
-        return p + 1;
-    }
-    public static void moveZeroes(int[] nums) {
-        if(nums.length>1) {
-            //两个指针i和j
-            int j = 0;
-            for(int i=0;i<nums.length;i++) {
-                //当前元素!=0，就把其交换到左边，等于0的交换到右边
-                if(nums[i]!=0) {
-                    int tmp = nums[i];
-                    nums[i] = nums[j];
-                    nums[j++] = tmp;
-                }
-            }
-        }
-    }
-
-    public static int findMaxConsecutiveOnes(int[] nums) {
-        int cd = 0;
-        int od = 0;
-        for (int i=0;i<nums.length;i++){
-            if(nums[i]==1){
-                cd++;
+    //int[]{-1,0,3,5,9,12}
+    public static int bisection(int[] nums, int target){
+        int left = 0;
+        int right = nums.length -1;
+        while(left <= right){
+            int middle = left + ((right - left) / 2);
+            if(nums[middle]> target){
+                right = middle -1;
+            } else if (nums[middle] < target) {
+                left = middle + 1;
             } else {
-                od=Math.max(od,cd);
-                cd=0;
+                return middle;
             }
         }
-        od=Math.max(od,cd);
-        return od;
+        return -1;
     }
 
-    public static int removeElement(int[] nums, int val) {
-        //两个指针i和j
-        int l = 0;
-        int r = nums.length;
-            while (l<r){
-                //当前元素!=0，就把其交换到左边，等于0的交换到右边
-                if(nums[l]==val) {
-                    nums[l]=nums[r-1];
-                    r--;
-                }else {
-                    l++;
-                }
+    //int[]{4,2,1,3,5,9}
+    public static int minLength(int[] nums, int val){
+        int left = 0;
+        int sum = 0;
+        int result = Integer.MAX_VALUE;
+        for(int right =0; right < nums.length; right++){
+            sum += nums[right];
+            while(sum >= val){
+                result = Math.min(result, right - left + 1);
+                sum -= nums[left++];
             }
-
-        return l;
+        }
+        return result == Integer.MAX_VALUE ? 0 : result;
     }
+
+    //int[]{3,2,2,3,1,4}
+    public static int removeE(int[] nums, int val){
+        int left = 0;
+        for(int right = 0; right < nums.length; right++){
+            if(nums[right] != val){
+                nums[left++] = nums[right];
+            }
+        }
+        return left;
+    }
+
+
 }
