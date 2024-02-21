@@ -27,7 +27,7 @@ public class Remove {
         MyPrint(t1);
 
         System.out.println("--------链表t1 after-------");
-        MyPrint(removeElements01(t3, 3));
+        MyPrint(removeNthFromEnd(t1, 2));
     }
 
     /**
@@ -87,6 +87,14 @@ public class Remove {
         return head;
     }
 
+    /**
+     * 不添加虚拟节点and pre Node方式
+     * 时间复杂度 O(n)
+     * 空间复杂度 O(1)
+     * @param head
+     * @param val
+     * @return
+     */
     public static ListNode removeElements03(ListNode head, int val) {
         while(head!=null && head.val==val){
             head = head.next;
@@ -99,5 +107,27 @@ public class Remove {
             curr = curr.next;
         }
         return head;
+    }
+
+    public static ListNode removeNthFromEnd(ListNode head, int n){
+        ListNode dummyNode = new ListNode(0);
+        dummyNode.next = head;
+        ListNode fastIndex = dummyNode;
+        ListNode slowIndex = dummyNode;
+
+        while(n-- > 0 && fastIndex != null){
+            fastIndex = fastIndex.next;
+        }
+//        for(int i = 0; i <= n; i++){
+//            fastIndex = fastIndex.next;
+//        }
+
+        while (fastIndex != null){
+            fastIndex = fastIndex.next;
+            slowIndex = slowIndex.next;
+        }
+
+        slowIndex.next = slowIndex.next.next;
+        return dummyNode.next;
     }
 }
